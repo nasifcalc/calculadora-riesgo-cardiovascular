@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Calculadora de Riesgo Cardiovascular – Gratis, rápida y confiable</title>
+    <meta name="description" content="Calculá gratis y en menos de 30 segundos tu riesgo cardiovascular y de infarto. Resultados claros y consejos prácticos para cuidar tu corazón.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index,follow">
+    <!-- Open Graph Protocol (para compartir en redes sociales) -->
+    <meta property="og:title" content="Calculadora de Riesgo Cardiovascular – Gratis y Rápida">
+    <meta property="og:description" content="Calculá gratis y en menos de 30 segundos tu riesgo cardiovascular y de infarto. Resultados claros y consejos prácticos para cuidar tu corazón.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://placehold.co/1200x630/4285F4/FFFFFF?text=Tu+salud+es+prioridad">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #34A853; /* Verde para la salud */
+            --color-secondary: #4285F4; /* Azul para la confianza */
+            --color-low-risk: #4CAF50; /* Verde claro */
+            --color-medium-risk: #FFC107; /* Amarillo */
+            --color-high-risk: #F44336; /* Rojo */
+            --color-text-dark: #333;
+            --color-text-light: #FFF;
+            --color-bg-light: #F4F6F8;
+            --color-bg-white: #FFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg-light);
+            margin: 0;
+            padding: 20px;
+            color: var(--color-text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--color-bg-white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--color-secondary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            color: var(--color-text-dark);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-title {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        /* Estilos para la animación de las secciones de formulario */
+        .form-section {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            padding: inherit;
+        }
+        
+        .form-section.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: static;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button.primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+        }
+
+        .button.secondary {
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:focus { 
+            outline: 3px solid #9ecbff; 
+            outline-offset: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        /* Resalta los campos inválidos para feedback visual */
+        input:invalid {
+            border: 2px solid var(--color-high-risk);
+            background-color: #ffe8e8;
+        }
+
+        .result-container {
+            display: none;
+            padding: 25px;
+            border-radius: 12px;
+            color: var(--color-text-light);
+            transition: background-color 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+
+        .result-container.show {
+            display: block;
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .result-container h2 {
+            color: var(--color-text-light);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .result-container p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        .result-low {
+            background-color: var(--color-low-risk);
+        }
+
+        .result-medium {
+            background-color: var(--color-medium-risk);
+        }
+
+        .result-high {
+            background-color: var(--color-high-risk);
+        }
+
+        /* Estilos para el modal de mensaje de error */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: var(--color-text-dark);
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        .ad-block {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Estilos para ocultar visualmente contenido de forma accesible */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+
+        /* Estilos y animación para el emoji de corazón */
+        .heart-emoji {
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .button-group {
+                gap: 10px;
+            }
+
+            .button {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .result-container h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Ajuste para pantallas muy pequeñas */
+        @media (max-width: 360px) {
+            h1 .heart-emoji:last-child {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Bloque SEO y de bienvenida -->
+        <header>
+            <h1>
+                <span class="heart-emoji" role="img" aria-label="Corazón">❤️</span>
+                Calculadora de Riesgo Cardiovascular
+                <span class="heart-emoji" role="img" aria-label="Corazón">❤️</span>
+            </h1>
+            <h2>¿Querés saber tu riesgo de infarto?</h2>
+            <p>El riesgo cardiovascular es la probabilidad de sufrir un evento como un infarto o un derrame cerebral. Entender tus factores de riesgo te ayuda a tomar el control de tu salud. Usa esta herramienta para tener una primera estimación.</p>
+        </header>
+        
+        <!-- Párrafo de autoridad -->
+        <p style="margin-top: -10px; text-align: center; font-style: italic; color: #555;">
+            Esta herramienta está basada en modelos clínicos simplificados como Framingham y los de la Organización Mundial de la Salud (OMS).
+        </p>
+
+        <!-- Bloque de elección de modo inicial -->
+        <div id="mode-selection" class="section">
+            <h2 class="form-title">Calculadora de Riesgo Cardiovascular Gratis</h2>
+            <div class="button-group">
+                <button type="button" id="btn-advanced" class="button primary" aria-label="Ingresar valores médicos">Tengo mis valores médicos</button>
+                <button type="button" id="btn-simple" class="button secondary" aria-label="Responder preguntas rápidas">Quiero responder rápido</button>
+            </div>
+        </div>
+
+        <!-- Modo Simple -->
+        <form id="simple-form" class="section form-section">
+            <h3 class="form-title">Calculadora Simple de Riesgo Cardiovascular</h3>
+            <div class="input-group">
+                <label for="simple-age">Edad:</label>
+                <select id="simple-age" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="1">Menos de 30</option>
+                    <option value="2">30-49</option>
+                    <option value="3">50-69</option>
+                    <option value="4">70 o más</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="simple-gender">Sexo biológico:</label>
+                <select id="simple-gender" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="male">Hombre</option>
+                    <option value="female">Mujer</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="simple-smoker">Tabaquismo:</label>
+                <select id="simple-smoker" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="no">No fumo</option>
+                    <option value="yes">Fumo o fumé en el pasado</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="simple-bmi">IMC aproximado:</label>
+                <select id="simple-bmi" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="normal">Normal (18.5 - 24.9)</option>
+                    <option value="overweight">Sobrepeso (25 - 29.9)</option>
+                    <option value="obese">Obesidad (≥ 30)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="simple-activity">Actividad física:</label>
+                <select id="simple-activity" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="high">Alta (≥ 150 min/sem)</option>
+                    <option value="low">Baja o nula</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="simple-family-history">Antecedentes familiares:</label>
+                <select id="simple-family-history" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="no">No tengo</option>
+                    <option value="yes">Sí tengo</option>
+                </select>
+            </div>
+            <button type="submit" class="button primary">Calcular Riesgo Simple</button>
+            <button type="button" class="button secondary" onclick="goToModeSelection()" aria-label="Volver a la selección de modo">Volver</button>
+        </form>
+
+        <!-- Modo Avanzado -->
+        <form id="advanced-form" class="section form-section">
+            <h3 class="form-title">Calculadora Avanzada de Riesgo Cardiovascular</h3>
+            <div class="input-group">
+                <label for="adv-age" id="label-adv-age">Edad (años):</label>
+                <input type="number" id="adv-age" required min="20" max="100" aria-describedby="desc-adv-age">
+                <span id="desc-adv-age" class="visually-hidden">Ingresá tu edad en años, entre 20 y 100.</span>
+            </div>
+            <div class="input-group">
+                <label for="adv-gender">Sexo biológico:</label>
+                <select id="adv-gender" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="male">Hombre</option>
+                    <option value="female">Mujer</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="adv-smoker">Tabaquismo:</label>
+                <select id="adv-smoker" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Sí</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="adv-diabetes">Diabetes:</label>
+                <select id="adv-diabetes" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Sí</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="adv-treatment">Tratamiento antihipertensivo:</label>
+                <select id="adv-treatment" required>
+                    <option value="" disabled selected hidden>Seleccioná...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Sí</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="adv-systolic" id="label-adv-systolic">Presión arterial sistólica (mm Hg):</label>
+                <input type="number" id="adv-systolic" required min="80" max="250" aria-describedby="desc-adv-systolic">
+                <span id="desc-adv-systolic" class="visually-hidden">Ingresá tu presión arterial sistólica en mm de mercurio, entre 80 y 250.</span>
+            </div>
+            <div class="input-group">
+                <label for="adv-total-chol" id="label-adv-total-chol">Colesterol total (mg/dL):</label>
+                <input type="number" id="adv-total-chol" required min="100" max="400" aria-describedby="desc-adv-total-chol">
+                <span id="desc-adv-total-chol" class="visually-hidden">Ingresá tu colesterol total en miligramos por decilitro, entre 100 y 400.</span>
+            </div>
+            <div class="input-group">
+                <label for="adv-hdl-chol" id="label-adv-hdl-chol">Colesterol HDL (mg/dL):</label>
+                <input type="number" id="adv-hdl-chol" required min="20" max="120" aria-describedby="desc-adv-hdl-chol">
+                <span id="desc-adv-hdl-chol" class="visually-hidden">Ingresá tu colesterol HDL en miligramos por decilitro, entre 20 y 120.</span>
+            </div>
+            <button type="submit" class="button primary">Calcular Riesgo Avanzado</button>
+            <button type="button" class="button secondary" onclick="goToModeSelection()" aria-label="Volver a la selección de modo">Volver</button>
+        </form>
+
+        <!-- Bloque de resultado -->
+        <div id="result" class="result-container" role="status" aria-live="polite">
+            <h2 id="result-title"></h2>
+            <p id="result-text"></p>
+            <p id="share-prompt" style="font-size: 0.9rem; margin-top: 20px;">
+                ¡Ayudá a otros a cuidar su corazón! Compartí tu resultado y esta herramienta.
+            </p>
+            <!-- Botones de acción en la pantalla de resultado -->
+            <div class="button-group" style="flex-direction: row; justify-content: center; margin-top: 20px;">
+                <button type="button" class="button secondary" onclick="shareResult()" aria-label="Compartir mi resultado">Compartir</button>
+                <button type="button" class="button secondary" onclick="resetApp()" aria-label="Reiniciar la aplicación">Reiniciar</button>
+            </div>
+        </div>
+
+        <!-- Modal de mensaje de error -->
+        <div id="messageModal" class="modal-overlay">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <h3 id="modalTitle"></h3>
+                <p id="modalMessage"></p>
+                <button type="button" class="button primary" onclick="closeModal()">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Bloque de anuncios -->
+        <div class="ad-block">
+            <!-- Si planeas usar AdSense en producción, se recomienda mover este snippet a un archivo .js externo -->
+            <!-- para mantener el HTML principal más limpio y optimizado. -->
+            <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script> -->
+            <!-- <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1234567890123456"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins> -->
+            <!-- <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script> -->
+            <p>Espacio para anuncios</p>
+        </div>
+
+        <!-- Disclaimer -->
+        <p class="disclaimer"><strong>Disclaimer:</strong> Esta herramienta es educativa y no reemplaza una consulta médica. Para una evaluación precisa, consultá a un profesional de la salud.</p>
+    </div>
+
+    <script>
+        // Referencias a los elementos del DOM
+        const modeSelection = document.getElementById('mode-selection');
+        const simpleForm = document.getElementById('simple-form');
+        const advancedForm = document.getElementById('advanced-form');
+        const resultContainer = document.getElementById('result');
+        const resultTitle = document.getElementById('result-title');
+        const resultText = document.getElementById('result-text');
+
+        // Referencias del modal de error
+        const messageModal = document.getElementById('messageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        // Botones de selección de modo
+        document.getElementById('btn-simple').addEventListener('click', () => {
+            showForm('simple');
+        });
+
+        document.getElementById('btn-advanced').addEventListener('click', () => {
+            showForm('advanced');
+        });
+
+        // Event listener para el formulario simple
+        simpleForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            calculateSimpleRisk();
+        });
+
+        // Event listener para el formulario avanzado
+        advancedForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            calculateAdvancedRisk();
+        });
+
+        /**
+         * Muestra el formulario correspondiente y oculta los demás con animación.
+         * Se maneja la transición de forma más suave con opacity y visibility.
+         * @param {string} mode - 'simple' o 'advanced'.
+         */
+        function showForm(mode) {
+            // Ocultar la selección de modo
+            modeSelection.style.display = 'none';
+
+            // Ocultar el resultado si está visible
+            resultContainer.classList.remove('show');
+
+            // Ocultar todos los formularios inicialmente para la transición
+            simpleForm.classList.remove('show');
+            advancedForm.classList.remove('show');
+            
+            // Usamos requestAnimationFrame para sincronizar la transición con el renderizado del navegador
+            requestAnimationFrame(() => {
+                const formToShow = (mode === 'simple') ? simpleForm : advancedForm;
+                
+                // Aplicamos la clase 'show' que maneja la transición de visibilidad y opacidad
+                formToShow.classList.add('show');
+            });
+        }
+        
+        /**
+         * Muestra el modal de mensaje de error.
+         * @param {string} title - El título del modal.
+         * @param {string} message - El mensaje del modal.
+         */
+        function showMessageModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalMessage.style.textAlign = 'center';
+            messageModal.style.display = 'flex';
+        }
+
+        /**
+         * Cierra el modal de mensaje de error.
+         */
+        function closeModal() {
+            messageModal.style.display = 'none';
+        }
+
+        /**
+         * Calcula el riesgo en el modo simple.
+         */
+        function calculateSimpleRisk() {
+            let score = 0;
+            const age = document.getElementById('simple-age').value;
+            const gender = document.getElementById('simple-gender').value;
+            const smoker = document.getElementById('simple-smoker').value;
+            const bmi = document.getElementById('simple-bmi').value;
+            const activity = document.getElementById('simple-activity').value;
+            const familyHistory = document.getElementById('simple-family-history').value;
+
+            // Lógica de puntuación simplificada
+            if (age !== '1') score++;
+            if (gender === 'male') score++;
+            if (smoker === 'yes') score += 2; 
+            if (bmi !== 'normal') score++;
+            if (activity === 'low') score++;
+            if (familyHistory === 'yes') score += 2; 
+
+            let riskLevel, riskMessage, riskClass;
+
+            if (score <= 3) {
+                riskLevel = 'Riesgo Bajo';
+                riskMessage = '¡Excelente! Mantené tus hábitos saludables. Seguí cuidando tu corazón.';
+                riskClass = 'result-low';
+            } else if (score <= 6) {
+                riskLevel = 'Riesgo Moderado';
+                riskMessage = 'Tené en cuenta tus factores de riesgo. Hacé un control este mes y adoptá un cambio hoy.';
+                riskClass = 'result-medium';
+            } else {
+                riskLevel = 'Riesgo Alto';
+                riskMessage = 'Tus valores sugieren un riesgo elevado. Pedí turno esta semana y definí un plan con tu médico.';
+                riskClass = 'result-high';
+            }
+
+            displayResult(riskLevel, riskMessage, riskClass);
+        }
+
+        /**
+         * Calcula el riesgo en el modo avanzado.
+         */
+        function calculateAdvancedRisk() {
+            const age = parseInt(document.getElementById('adv-age').value);
+            const gender = document.getElementById('adv-gender').value;
+            const smoker = document.getElementById('adv-smoker').value;
+            const diabetes = document.getElementById('adv-diabetes').value;
+            const treatment = document.getElementById('adv-treatment').value;
+            const systolic = parseInt(document.getElementById('adv-systolic').value);
+            const totalChol = parseInt(document.getElementById('adv-total-chol').value);
+            const hdlChol = parseInt(document.getElementById('adv-hdl-chol').value);
+
+            // Validación de rango más estricta para evitar datos atípicos
+            if (isNaN(age) || age < 20 || age > 100) {
+                showMessageModal('Error', 'Por favor, ingresá una edad válida (entre 20 y 100 años).');
+                return;
+            }
+            if (isNaN(systolic) || systolic < 80 || systolic > 250) {
+                showMessageModal('Error', 'Por favor, ingresá un valor de presión arterial sistólica válido (entre 80 y 250 mm Hg).');
+                return;
+            }
+            if (isNaN(totalChol) || totalChol < 100 || totalChol > 400) {
+                showMessageModal('Error', 'Por favor, ingresá un valor de colesterol total válido (entre 100 y 400 mg/dL).');
+                return;
+            }
+            if (isNaN(hdlChol) || hdlChol < 20 || hdlChol > 120) {
+                showMessageModal('Error', 'Por favor, ingresá un valor de colesterol HDL válido (entre 20 y 120 mg/dL).');
+                return;
+            }
+
+            // Puntuación simplificada de riesgo
+            let score = 0;
+            
+            if (age >= 60) score += 3;
+            else if (age >= 45) score += 2;
+            else if (age >= 30) score += 1;
+
+            if (gender === 'male') score++;
+            if (smoker === 'yes') score += 2;
+            if (diabetes === 'yes') score += 2;
+            if (treatment === 'yes') score += 1;
+            
+            if (systolic >= 140) score += 2;
+            else if (systolic >= 130) score += 1;
+
+            const cholRatio = totalChol / Math.max(hdlChol, 1);
+            if (cholRatio >= 6) score += 2;
+            else if (cholRatio >= 4) score += 1;
+
+            let riskLevel, riskMessage, riskClass;
+
+            if (score <= 5) {
+                riskLevel = 'Riesgo Bajo';
+                riskMessage = 'Tus valores indican un riesgo bajo. Mantené tu estilo de vida saludable.';
+                riskClass = 'result-low';
+            } else if (score <= 9) {
+                riskLevel = 'Riesgo Moderado';
+                riskMessage = 'Tené en cuenta tus valores. Hacé un control este mes y adoptá un cambio hoy.';
+                riskClass = 'result-medium';
+            } else {
+                riskLevel = 'Riesgo Alto';
+                riskMessage = 'Tus valores sugieren un riesgo elevado. Pedí turno esta semana y definí un plan con tu médico.';
+                riskClass = 'result-high';
+            }
+
+            displayResult(riskLevel, riskMessage, riskClass);
+        }
+
+        /**
+         * Muestra el resultado de la calculadora con una animación suave.
+         */
+        function displayResult(title, text, cssClass) {
+            simpleForm.classList.remove('show');
+            advancedForm.classList.remove('show');
+            
+            resultContainer.className = `result-container ${cssClass}`;
+            resultTitle.textContent = title;
+            resultText.textContent = text;
+            
+            // Hacer el contenedor visible antes de aplicar la clase de transición
+            resultContainer.style.display = 'block';
+
+            // Forzar un reflow para que el navegador reconozca el cambio de display
+            void resultContainer.offsetWidth; 
+            
+            // Ahora aplica la clase 'show' para la transición de opacidad y escala
+            resultContainer.classList.add('show');
+        }
+
+        /**
+         * Vuelve a la pantalla de selección de modo.
+         */
+        function goToModeSelection() {
+            simpleForm.reset();
+            advancedForm.reset();
+            resultContainer.style.display = 'none';
+            resultContainer.classList.remove('show');
+            simpleForm.classList.remove('show');
+            advancedForm.classList.remove('show');
+            modeSelection.style.display = 'block';
+        }
+
+        /**
+         * Reinicia la aplicación a su estado inicial.
+         */
+        function resetApp() {
+            simpleForm.reset();
+            advancedForm.reset();
+            goToModeSelection();
+        }
+
+        /**
+         * Comparte el resultado usando la API nativa del navegador o un fallback.
+         */
+        async function shareResult() {
+            const shareMessage = `¡Mi riesgo cardiovascular es ${resultTitle.textContent}! Descubrí el tuyo en esta calculadora de riesgo cardiovascular: ${window.location.href} #CuidáTuCorazón`;
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Calculadora de Riesgo Cardiovascular',
+                        text: shareMessage,
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    // Si el usuario cancela o el navegador falla, se usa el fallback
+                    copyToClipboardFallback(shareMessage);
+                }
+            } else {
+                // Fallback para navegadores que no soportan la API nativa
+                copyToClipboardFallback(shareMessage);
+            }
+        }
+
+        /**
+         * Fallback para copiar texto al portapapeles usando un textarea temporal.
+         * NOTA: document.execCommand('copy') está obsoleto, pero se mantiene como respaldo para
+         * navegadores antiguos o entornos que no soportan la API Clipboard.
+         * @param {string} text - El texto a copiar.
+         */
+        function copyToClipboardFallback(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showMessageModal('¡Copiado!', 'El resultado se copió al portapapeles.');
+            } catch (err) {
+                showMessageModal('Copia manual', 'El copiado automático falló. Por favor, seleccioná y copiá el texto manualmente.');
+            }
+            document.body.removeChild(tempInput);
+        }
+    </script>
+
+</body>
+</html>
