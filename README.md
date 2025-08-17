@@ -1,11 +1,14 @@
 # Calculadora de Riesgo Cardiovascular ❤️
 
-Calculadora online para estimar tu riesgo de infarto y salud cardiovascular en menos de 30 segundos.
+**Estimá tu probabilidad de infarto y salud cardiovascular en menos de 30 segundos.**  
+Herramienta online gratuita, con **modo simple** y **modo avanzado**, resultados claros y consejos prácticos para cuidar tu corazón.
 
-- **Modo simple** y **modo avanzado**
-- Resultados claros y consejos personalizados
-- Diseño responsive y optimizado para móvil
+## 🚀 Características
+- **Modo simple**: respondiendo preguntas rápidas sin datos médicos.
+- **Modo avanzado**: ingresando tus valores clínicos (edad, presión, colesterol, etc.).
+- **Resultados inmediatos** con clasificación en riesgo bajo, moderado o alto.
+- **Consejos personalizados** según tu perfil de riesgo.
+- **Diseño responsive** y optimizado para móviles.
+- **Animaciones y transiciones suaves** para una mejor experiencia de uso.
 
 
-## Licencia
-Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
