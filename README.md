@@ -5,7 +5,7 @@ Calculadora online para estimar tu riesgo de infarto y salud cardiovascular en m
 - **Modo simple** y **modo avanzado**
 - Resultados claros y consejos personalizados
 - Diseño responsive y optimizado para móvil
-- [Probar ahora](https://TU-URL.pages.dev)
+
 
 ## Licencia
 Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
